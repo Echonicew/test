@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.model.mapper.StudentMapper">
+
+  <resultMap id="BaseResultMap" type="com.study.pojo.Student">
+    <id column="stid" property="stid" />
+    <!--<result column="cgid" property="cgid" />-->
+    <result column="stname"  property="stname" />
+    <result column="stsex" property="stsex" />
+    <result column="stbirth"  property="stbirth" />
+  </resultMap>
+
+  <resultMap id="base" type="com.study.pojo.Student" extends="BaseResultMap">
+    <collection property="gradesByStid" ofType="com.stu.springboot.pojo.Grade"
+                select="com.study.model.mapper.GradeMapper.selectByPrimaryKey" column="stid">
+      <id column="gdid" property="gdid"/>
+    </collection>
+  </resultMap>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select stid, cgid, stname, stsex, stbirth
+    from student
+  </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="base">
+    select stid, cgid, stname, stsex, stbirth
+    from student
+    where cgid = #{cgid}
+  </select>
+</mapper>

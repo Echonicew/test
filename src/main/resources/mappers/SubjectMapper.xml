@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.model.mapper.SubjectMapper">
+  <resultMap id="BaseResultMap" type="com.study.pojo.Subject">
+    <id column="sjid" jdbcType="INTEGER" property="sjid" />
+    <!--<result column="phid" jdbcType="INTEGER" property="phid" />-->
+    <result column="sjname" jdbcType="VARCHAR" property="sjname" />
+  </resultMap>
+
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select sjid, phid, sjname
+    from subject
+  </select>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select sjid, phid, sjname
+    from subject
+    where sjid = #{sjid,jdbcType=INTEGER}
+  </select>
+</mapper>

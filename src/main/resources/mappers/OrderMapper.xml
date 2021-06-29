@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace指向对应的接口类，全称-->
+<mapper namespace="com.study.model.mapper.OrderMapper">
+    <resultMap id="resultOrder" type="Orderes">
+        <!--
+        id INT PRIMARY KEY AUTO_INCREMENT,
+    ideres VARCHAR(20) NOT NULL,
+    oname VARCHAR(30) NOT NULL,
+    iphone VARCHAR(30) NOT NULL,
+    peis VARCHAR(10) NOT NULL,
+    zhif VARCHAR(10) NOT NULL,
+    orderes VARCHAR(10) NOT NULL,
+    times DATE-->
+        <id property="id" column="id"/>
+        <result property="ideres" column="ideres"/>
+        <result property="oname" column="oname"/>
+        <result property="iphone" column="iphone"/>
+        <result property="peis" column="peis"/>
+        <result property="zhif" column="zhif"/>
+        <result property="orderes" column="orderes"/>
+        <result property="times" column="times"/>
+    </resultMap>
+    <select id="selectAll" resultMap="resultOrder">
+        select * from orderes order by id desc
+    </select>
+</mapper>

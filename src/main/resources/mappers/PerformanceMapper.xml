@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.model.mapper.PerformanceMapper">
+  <resultMap id="BaseResultMap" type="com.study.pojo.Performance">
+    <id column="pfid" jdbcType="INTEGER" property="pfid" />
+    <result column="gdid" jdbcType="INTEGER" property="gdid" />
+    <result column="pftotal" jdbcType="INTEGER" property="pftotal" />
+    <result column="pfjlfs" jdbcType="DECIMAL" property="pfjlfs" />
+    <result column="pfdata" jdbcType="TIMESTAMP" property="pfdata" />
+  </resultMap>
+
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select pfid, gdid, pftotal, pfjlfs, pfdata
+    from performance
+  </select>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select pfid, gdid, pftotal, pfjlfs, pfdata
+    from performance
+    where pfid = #{pfid,jdbcType=INTEGER}
+  </select>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.model.mapper.GradeMapper">
+  <resultMap id="BaseResultMap" type="com.study.pojo.Grade">
+    <id column="gdid" property="gdid" />
+    <!--<result column="sjid" jdbcType="INTEGER" property="sjid" />
+    <result column="stid" jdbcType="INTEGER" property="stid" />-->
+    <result column="gdsum" property="gdsum" />
+
+  </resultMap>
+  <resultMap id="base" type="com.study.pojo.Grade" extends="BaseResultMap">
+    <association property="subjectBySjid" javaType="com.study.pojo.Subject"
+                 select="com.study.model.mapper.SubjectMapper.selectByPrimaryKey" column="sid" >
+      <id column="sid" property="sjid"/>
+    </association>
+  </resultMap>
+
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select gdid, sjid, stid, gdsum
+    from grade
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="base">
+    select gdid, sjid as sid , stid, gdsum
+    from grade
+    where stid = #{stid}
+  </select>
+</mapper>

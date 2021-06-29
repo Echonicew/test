@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace指向对应的接口类，全称-->
+<mapper namespace="com.test.spring_boot.model.Mapper.EmpMapper">
+    <resultMap id="resultEmp" type="EmpEntity">
+        <id property="empno" column="empno"/>
+        <result column="ename" property="ename"/>
+        <result column="mgr" property="mgr"/>
+        <result column="hiredate" property="hiredate"/>
+        <result column="job" property="job"/>
+        <result column="sal" property="sal"/>
+        <result column="comm" property="comm"/>
+        <!--配置关系字段-->
+        <association property="depts" javaType="DeptEntity">
+            <id column="deptno" property="deptno"/>
+            <result column="dname" property="dname"/>
+            <result column="loc" property="loc"/>
+        </association>
+    </resultMap>
+
+    <select id="selectAll" resultMap="resultEmp">
+        select * from emp
+    </select>
+    
+    <select id="selectById" resultMap="resultEmp">
+        select * from emp where empno = #{id}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM emp WHERE empno = #{id}
+    </delete>
+    
+    <!--新增-->
+    <insert id="doInsert" parameterType="EmpEntity"
+            keyColumn="empno" keyProperty="empno"  useGeneratedKeys="true">
+        insert into emp(ename,job,mgr,sal,comm,hiredate,deptno)
+          values (#{ename},
+                  #{job},
+                  #{mgr},
+                  #{sal},
+                  #{comm},
+                  #{hiredate},
+                  #{depts.deptno})
+    </insert>
+
+    <!--List<Emp> selectByDid(Integer deptno);-->
+    <select id="selectByDid" resultType="EmpEntity">
+        select * from emp where deptno = #{id}
+    </select>
+</mapper>

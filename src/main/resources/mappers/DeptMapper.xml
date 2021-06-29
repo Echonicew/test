@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace指向对应的接口类，全称-->
+<mapper namespace="com.test.spring_boot.model.Mapper.DeptMapper">
+    <resultMap id="resultDept" type="DeptEntity">
+        <id property="deptno" column="deptno"/>
+        <result property="dname" column="dname"/>
+        <result property="loc" column="loc"/>
+        <!-- private List<Emp> emps;
+        子查询：com.study.model.mapper.EmpMapper.selectByDid 根据部门编号查员工
+         -->
+        <collection property="emps" ofType="DeptEntity"
+         select="com.test.spring_boot.model.Mapper.EmpMapper.selectByDid"
+        column="deptno"></collection>
+    </resultMap>
+    <!--List<Dept> selectAll();-->
+    <select id="selectAll" resultMap="resultDept">
+       select * from dept order by deptno desc
+    </select>
+    <select id="selectById" resultMap="resultDept">
+        select * from dept d where d.deptno=#{id}
+    </select>
+</mapper>

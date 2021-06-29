@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.model.mapper.PhaseMapper">
+  <resultMap id="BaseResultMap" type="com.study.pojo.Phase">
+    <id column="phid" jdbcType="INTEGER" property="phid" />
+    <result column="phname" jdbcType="VARCHAR" property="phname" />
+  </resultMap>
+
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select phid, phname
+    from phase
+  </select>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select phid, phname
+    from phase
+    where phid = #{phid,jdbcType=INTEGER}
+  </select>
+</mapper>

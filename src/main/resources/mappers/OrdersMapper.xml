@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.model.mapper.OrdersMapper">
+    <!--基础的ResultMap的基类-->
+    <resultMap id="base" type="Orders">
+        <id property="oid" column="oid"/>
+        <result property="oState" column="o_state"/>
+        <result property="oTime" column="o_time"/>
+        <result property="oConsignee" column="o_consignee"/>
+        <result property="oPhone" column="o_phone"/>
+        <result property="oAddress" column="o_address"/>
+        <result property="oRental" column="o_rental"/>
+        <result property="uid" column="uid"/>
+    </resultMap>
+    <resultMap id="baseDetail" type="Orders" extends="base">
+        <!--private List<Ordetails> details;-->
+        <collection property="details" ofType="Ordetails"
+                    select="com.study.model.mapper.OrderDetailMapper.selectByOid" column="oid" fetchType="lazy"></collection>
+    </resultMap>
+    <!--查询的常用字段列-->
+    <sql id="column">
+        oid, uid, o_state, o_time, o_consignee, o_phone, o_address, o_rental
+    </sql>
+    <select id="selectAll" resultMap="base">
+        select <include refid="column"></include>  from orders
+        order by oid desc
+    </select>
+
+    <select id="selectBySearch2" resultMap="baseDetail">
+        select <include refid="column"></include> from orders
+        <where>
+            <choose>
+                <when test="begin!=null and end!=null">
+                    and o_time between #{begin} and #{end}
+                </when>
+                <when test="begin!=null">
+                    and o_time > #{begin}
+                </when>
+                <when test="end!=null">
+                    and o_time &lt; #{end}
+                </when>
+            </choose>
+            <if test="oid!=null and oid>0">
+                and oid like concat('%',#{oid},'%')
+            </if>
+            <if test="oConsignee!=null and oConsignee!=''">
+                and o_consignee like concat('%',#{oConsignee},'%')
+            </if>
+            <if test="oPhone!=null and oPhone!=''">
+                and o_phone like concat('%',#{oPhone},'%')
+            </if>
+            <if test="oAddress!=null and oAddress!=''">
+                and o_address like concat('%',#{oAddress},'%')
+            </if>
+            <if test="oState!=null and oState!=''">
+                and o_state = #{oState}
+            </if>
+        </where>
+        order by oid desc
+    </select>
+</mapper>

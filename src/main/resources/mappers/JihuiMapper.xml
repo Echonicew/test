@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace指向对应的接口类，全称-->
+<mapper namespace="com.study.model.mapper.JihuiMapper">
+    <!--//分页查询List<Jihui> selectAll();-->
+    <!--将常用sql片段提起，然后通过include标签陷入到对应的SQL语句中
+        注意每列的列名必须唯一
+    -->
+    <sql id="column">
+        jid, laiyuan, kehuname, jilv, gaiyao, lianxiren, dianhua, miaoshu, cjren, cjtime
+    </sql>
+    <select id="selectAll" resultType="Jihui">
+        select
+        <include refid="column"></include>
+        from jihui
+    </select>
+
+    <!--selectByChoose-->
+    <select id="selectByChoose" resultType="Jihui" parameterType="Jihui">
+        select <include refid="column"></include> from jihui
+        <where>
+            <if test="laiyuan!=null and laiyuan!=''">
+                and laiyuan = #{laiyuan}
+            </if>
+            <if test="kehuname!=null and kehuname!=''">
+                and kehuname like concat('%',#{kehuname},'%')
+            </if>
+            <if test="jilv!=null and jilv>0">
+                and jilv &lt;=#{jilv}
+            </if>
+            <if test="lianxiren!=null and lianxiren!=''">
+                and lianxiren = #{lianxiren}
+            </if>
+        </where>
+        order by jid desc
+    </select>
+
+    <select id="selectById" resultType="Jihui">
+        select <include refid="column"></include> from jihui
+        where jid=#{jid}
+    </select>
+</mapper>

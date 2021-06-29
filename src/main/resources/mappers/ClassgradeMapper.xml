@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.model.mapper.ClassgradeMapper">
+
+  <resultMap id="BaseResultMap" type="com.study.pojo.Classgrade">
+    <id column="cgid"  property="cgid" />
+    <!--<result column="phid"  property="phid" />-->
+    <result column="cgname"  property="cgname" />
+    <result column="cglocation"  property="cglocation" />
+    <result column="cgstage"  property="cgstage" />
+    <result column="cgteacher"  property="cgteacher" />
+    <association property="phaseByPhid" javaType="com.study.pojo.Phase">
+      <id column="phid" jdbcType="INTEGER" property="phid" />
+      <result column="phname" jdbcType="VARCHAR" property="phname" />
+    </association>
+  </resultMap>
+
+  <resultMap id="base" type="com.study.pojo.Classgrade" extends="BaseResultMap">
+    <collection property="studentsByCgid" ofType="com.study.pojo.Student"
+    select="com.study.model.mapper.StudentMapper.selectByPrimaryKey" column="cgid">
+      <id column="stid" property="stid"/>
+    </collection>
+   <!-- <association property="phaseByPhid" javaType="com.stu.springboot.pojo.Phase">
+      <id column="phid" jdbcType="INTEGER" property="phid" />
+      <result column="phname" jdbcType="VARCHAR" property="phname" />
+    </association>-->
+  </resultMap>
+
+  <select id="selectAll" resultMap="base">
+    select cgid, phid, cgname, cglocation, cgstage, cgteacher
+    from classgrade
+  </select>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select cgid, phid, cgname, cglocation, cgstage, cgteacher
+    from classgrade
+    where cgid = #{cgid,jdbcType=INTEGER}
+  </select>
+</mapper>
