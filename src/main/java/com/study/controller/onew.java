@@ -15,6 +15,7 @@ import java.util.List;
 @RequestMapping("/vues")
 @CrossOrigin
 public class EmpAllController {
+    int i=""
     @Autowired
     EmpServices es;
     @GetMapping("all")
